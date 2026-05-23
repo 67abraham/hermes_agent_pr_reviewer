@@ -58,7 +58,7 @@ GitHub PR opened/updated
 ```bash
 git clone https://github.com/your-org/hermes-pr-reviewer
 cd hermes-pr-reviewer
-cp .env.example .env
+cp .env
 ```
 
 Edit `.env`:
