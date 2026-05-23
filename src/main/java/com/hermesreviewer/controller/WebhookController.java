@@ -6,6 +6,7 @@ import com.hermesreviewer.service.ReviewOrchestrator;
 import com.hermesreviewer.service.WebhookSignatureVerifier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +17,11 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class WebhookController {
 
+    @Autowired
     private final ReviewOrchestrator reviewOrchestrator;
+    @Autowired
     private final WebhookSignatureVerifier signatureVerifier;
+    @Autowired
     private final ObjectMapper objectMapper;
 
     @PostMapping("/github")

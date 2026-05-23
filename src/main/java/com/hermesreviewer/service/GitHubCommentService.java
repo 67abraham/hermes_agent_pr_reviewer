@@ -1,8 +1,12 @@
 package com.hermesreviewer.service;
 
 import com.hermesreviewer.model.ReviewResult;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kohsuke.github.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +19,12 @@ import java.util.List;
  */
 @Service
 @Slf4j
+@AllArgsConstructor
+@NoArgsConstructor
 public class GitHubCommentService {
 
-    private final GitHub github;
+    @Autowired
+    private GitHub github;
 
     public GitHubCommentService(@Value("${github.token}") String token) throws IOException {
         this.github = new GitHubBuilder().withOAuthToken(token).build();
