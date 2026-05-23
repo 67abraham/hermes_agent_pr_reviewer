@@ -1,0 +1,25 @@
+# .hermesreview.yml
+# Place this file in the root of any repo you want Hermes to review.
+# All fields are optional — omit any you don't need.
+
+# Shapes how Hermes Agent approaches the review.
+# Options: "security-focused", "performance-focused", "beginner-friendly", or any freeform string.
+review-persona: "security-focused"
+
+# Tells Hermes to pay extra attention to these topics.
+focus-areas:
+  - SQL injection
+  - authentication and authorisation
+  - input validation
+  - secrets or credentials in code
+  - error handling
+
+# Comma-separated list of linters to run on changed files.
+# Supported: eslint, ruff, checkstyle, golangci, rubocop, none
+linters: "eslint"
+
+# Glob patterns for files Hermes should skip entirely.
+ignore-paths:
+  - "**/*.generated.java"
+  - "vendor/**"
+  - "**/__snapshots__/**"

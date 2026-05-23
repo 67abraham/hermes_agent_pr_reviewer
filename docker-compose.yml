@@ -1,0 +1,26 @@
+services:
+  hermes-pr-reviewer:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      # GitHub credentials
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      GITHUB_WEBHOOK_SECRET: ${GITHUB_WEBHOOK_SECRET}
+      # Hermes Agent endpoint (running locally or on a VPS)
+      HERMES_AGENT_URL: ${HERMES_AGENT_URL:-http://host.docker.internal:11434}
+      HERMES_MODEL: ${HERMES_MODEL:-nous-hermes-2}
+      # Review settings
+      REVIEW_WORKSPACE: /tmp/hermes-reviews
+      REVIEW_LINTERS: ${REVIEW_LINTERS:-none}
+    volumes:
+      - hermes-workspace:/tmp/hermes-reviews
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/webhook/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  hermes-workspace:

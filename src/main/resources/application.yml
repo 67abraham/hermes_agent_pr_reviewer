@@ -1,0 +1,35 @@
+server:
+  port: 8080
+
+hermes:
+  # Hermes Agent endpoint — update to your running instance
+  agent-url: ${HERMES_AGENT_URL:http://localhost:11434}
+  model: ${HERMES_MODEL:nous-hermes-2}
+  # Max tokens for review response
+  max-tokens: 4096
+
+github:
+  # GitHub App credentials
+  app-id: ${GITHUB_APP_ID}
+  private-key-path: ${GITHUB_PRIVATE_KEY_PATH:./github-app.pem}
+  webhook-secret: ${GITHUB_WEBHOOK_SECRET}
+  # Personal access token (alternative to App auth for local dev)
+  token: ${GITHUB_TOKEN:}
+
+review:
+  # Temp directory for cloned repos
+  workspace-dir: ${REVIEW_WORKSPACE:/tmp/hermes-reviews}
+  # How many lines of context around each diff hunk
+  diff-context-lines: 5
+  # Linters to run (comma-separated): eslint, ruff, checkstyle, none
+  linters: ${REVIEW_LINTERS:none}
+  # Auto-cleanup cloned repos after review
+  cleanup-after-review: true
+
+spring:
+  task:
+    execution:
+      pool:
+        core-size: 4
+        max-size: 10
+        queue-capacity: 50

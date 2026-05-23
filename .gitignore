@@ -1,0 +1,10 @@
+target/
+.env
+*.pem
+*.p8
+*.iml
+.idea/
+.vscode/
+*.class
+*.jar
+/tmp/hermes-reviews/
