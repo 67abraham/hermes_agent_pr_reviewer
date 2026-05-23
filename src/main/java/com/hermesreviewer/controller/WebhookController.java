@@ -39,7 +39,7 @@ public class WebhookController {
         if (!"pull_request".equals(eventType)) {
             return ResponseEntity.ok("Event ignored: " + eventType);
         }
-
+        System.out.println("Not necessary but just commit");
         try {
             PullRequestEvent event = objectMapper.readValue(rawPayload, PullRequestEvent.class);
 
@@ -61,6 +61,8 @@ public class WebhookController {
             log.error("Failed to parse webhook payload", e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad payload");
         }
+
+
     }
 
     @GetMapping("/health")
