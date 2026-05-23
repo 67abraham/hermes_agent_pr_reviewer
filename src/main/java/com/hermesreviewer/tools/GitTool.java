@@ -11,6 +11,10 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Git tool — gives Hermes Agent shell-level access to repo operations.
+ * Wraps git CLI commands rather than using JGit to keep deps light.
+ */
 @Component
 @Slf4j
 public class GitTool {
@@ -31,16 +35,34 @@ public class GitTool {
 
         log.info("Cloning {} @ {} into {}", cloneUrl, headSha, targetDir);
 
-        // Shallow clone — we only need history for the diff
+        // Clone with enough depth to find the commit
         runCommand(List.of(
                 "git", "clone",
-                "--depth=50",       // enough history for the diff
+                "--depth=100",
                 "--no-tags",
                 cloneUrl,
                 targetDir.toString()
         ), Path.of(workspaceDir));
 
-        // Checkout the exact commit
+        // Verify the SHA is available — if not, fetch it explicitly
+        ProcessBuilder check = new ProcessBuilder("git", "cat-file", "-t", headSha);
+        check.directory(targetDir.toFile());
+        check.redirectErrorStream(true);
+        Process checkProcess = check.start();
+        int checkExit = checkProcess.waitFor();
+
+        if (checkExit != 0) {
+            // SHA not in shallow history — fetch it explicitly
+            log.info("SHA {} not in shallow clone, fetching explicitly", headSha);
+            runCommand(List.of(
+                    "git", "fetch",
+                    "--depth=100",
+                    "origin",
+                    headSha
+            ), targetDir);
+        }
+
+        // Now checkout the specific SHA
         runCommand(List.of("git", "checkout", headSha), targetDir);
 
         return targetDir;
@@ -52,8 +74,12 @@ public class GitTool {
     public String getDiff(Path repoDir, String baseSha, String headSha)
             throws IOException, InterruptedException {
 
-        // Fetch the base ref so git can compute the diff
-        runCommand(List.of("git", "fetch", "--depth=50", "origin", baseSha), repoDir);
+        // Fetch base SHA explicitly in case it's not in shallow history
+        try {
+            runCommand(List.of("git", "fetch", "--depth=100", "origin", baseSha), repoDir);
+        } catch (IOException e) {
+            log.warn("Could not fetch base SHA {} explicitly, trying without: {}", baseSha, e.getMessage());
+        }
 
         ProcessBuilder pb = new ProcessBuilder(
                 "git", "diff",
@@ -113,7 +139,7 @@ public class GitTool {
         if (exitCode != 0 && !(isGitDiff && exitCode == 1)) {
             throw new IOException(
                     "Command failed (exit " + exitCode + "): " +
-                    String.join(" ", command) + "\n" + output
+                            String.join(" ", command) + "\n" + output
             );
         }
     }

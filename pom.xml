@@ -12,9 +12,9 @@
     </parent>
 
     <groupId>com.hermesreviewer</groupId>
-    <artifactId>hermes-pr-reviewer</artifactId>
+    <artifactId>hermes-pr-reviewers</artifactId>
     <version>1.0.0</version>
-    <name>hermes-pr-reviewer</name>
+    <name>hermes-pr-reviewers</name>
     <description>Autonomous GitHub PR reviewer powered by Hermes Agent</description>
 
     <properties>
