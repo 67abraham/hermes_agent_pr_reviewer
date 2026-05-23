@@ -35,11 +35,12 @@ public class WebhookController {
             log.warn("Webhook signature verification failed — rejecting request");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid signature");
         }
+        System.out.println("Not necessary but just commit");
 
         if (!"pull_request".equals(eventType)) {
             return ResponseEntity.ok("Event ignored: " + eventType);
         }
-        System.out.println("Not necessary but just commit");
+
         try {
             PullRequestEvent event = objectMapper.readValue(rawPayload, PullRequestEvent.class);
 
