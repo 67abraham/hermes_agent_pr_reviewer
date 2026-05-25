@@ -161,7 +161,6 @@ public class HermesAgentService {
             return root.path("choices").get(0).path("message").path("content").asText();
         }
     }
-
     private ReviewResult parseReviewResponse(String rawResponse) {
         try {
             // Strip any markdown fences the model may have added
@@ -171,7 +170,6 @@ public class HermesAgentService {
                     .trim();
 
             JsonNode root = objectMapper.readTree(json);
-
             String verdictStr = root.path("verdict").asText("COMMENT");
             ReviewVerdict verdict = ReviewVerdict.valueOf(verdictStr);
 
