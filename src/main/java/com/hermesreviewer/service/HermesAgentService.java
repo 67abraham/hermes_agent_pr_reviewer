@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Calls the Hermes Agent API with the PR diff and linter output,
@@ -140,10 +142,14 @@ public class HermesAgentService {
         // Hermes Agent exposes an OpenAI-compatible /v1/chat/completions endpoint
         String requestBody = objectMapper.writeValueAsString(new ChatRequest(model, maxTokens, prompt));
 
+        Map<String, String> seheader = new HashMap();
+        seheader.put("Authorization","Bearer 7b75c35040a6d0be8a5208b3e7d48130d4222c27");
+        seheader.put("Content-Type", "application/json");
+
         Request request = new Request.Builder()
                 .url(hermesAgentUrl + "/v1/chat/completions")
                 .post(RequestBody.create(requestBody, JSON))
-                .header("Content-Type", "application/json")
+                .headers(Headers.of(seheader))
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
