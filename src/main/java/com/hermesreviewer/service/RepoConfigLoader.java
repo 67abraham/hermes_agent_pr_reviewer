@@ -37,10 +37,12 @@ public class RepoConfigLoader {
     public RepoConfig load(Path repoDir) {
         Path configPath = repoDir.resolve(CONFIG_FILE);
 
+
         if (!Files.exists(configPath)) {
             log.debug("No {} found — using defaults", CONFIG_FILE);
             return new RepoConfig();
         }
+
 
         try {
             RepoConfig config = YAML_MAPPER.readValue(configPath.toFile(), RepoConfig.class);
