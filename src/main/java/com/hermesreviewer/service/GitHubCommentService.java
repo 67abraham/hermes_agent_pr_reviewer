@@ -68,6 +68,8 @@ public class GitHubCommentService {
                 .body(fullSummary)
                 .event(event);
 
+        log.info("Full Response Build");
+
         // Add inline comments
         review.getComments().forEach(c -> {
             if (c.getPath() != null && !c.getPath().isBlank() && c.getLine() > 0) {
