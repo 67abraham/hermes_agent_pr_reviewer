@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableAsync
 public class HermesPrReviewerApplication {
 
-
     public static void main(String[] args) {
         SpringApplication.run(HermesPrReviewerApplication.class, args);
     }
