@@ -3,8 +3,8 @@ server:
 
 hermes:
   # Hermes Agent endpoint — update to your running instance
-  agent-url: ${HERMES_AGENT_URL:http://localhost:11434}
-  model: ${HERMES_MODEL:nous-hermes-2}
+  agent-url: ${HERMES_AGENT_URL}
+  model: ${HERMES_MODEL}
   # Max tokens for review response
   max-tokens: 4096
 
@@ -14,7 +14,7 @@ github:
   private-key-path: ${GITHUB_PRIVATE_KEY_PATH:./github-app.pem}
   webhook-secret: ${GITHUB_WEBHOOK_SECRET}
   # Personal access token (alternative to App auth for local dev)
-  token: ${GITHUB_TOKEN:}
+  token: ${GITHUB_TOKEN}
 
 review:
   # Temp directory for cloned repos

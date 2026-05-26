@@ -6,6 +6,7 @@ import com.hermesreviewer.tools.GitTool;
 import com.hermesreviewer.tools.LinterTool;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -24,10 +25,15 @@ import java.nio.file.Path;
 @Slf4j
 public class ReviewOrchestrator {
 
+    @Autowired
     private final GitTool gitTool;
+    @Autowired
     private final LinterTool linterTool;
+    @Autowired
     private final HermesAgentService hermesAgentService;
+    @Autowired
     private final GitHubCommentService gitHubCommentService;
+    @Autowired
     private final RepoConfigLoader repoConfigLoader;
 
     @Value("${review.cleanup-after-review}")

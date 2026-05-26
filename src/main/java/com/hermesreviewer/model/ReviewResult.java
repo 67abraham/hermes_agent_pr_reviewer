@@ -1,13 +1,17 @@
 package com.hermesreviewer.model;
 
 import com.hermesreviewer.uiliity.ReviewVerdict;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReviewResult {
 
     private String summary;

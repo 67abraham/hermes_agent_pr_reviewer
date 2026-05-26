@@ -1,0 +1,15 @@
+#terminial command
+#edit hermes .evn
+API_SERVER_ENABLED=true
+API_SERVER_PORT=8642
+API_SERVER_HOST=0.0.0.0
+API_SERVER_KEY=hermes-pr-reviewer-secret
+GATEWAY_ALLOW_ALL_USERS=true
+DISCORD_ENABLED=false
+
+# you can use the hermes Set instruction to add these value in the config
+
+# After the setup is completed run: hermes gateway run --verbose
+
+
+
